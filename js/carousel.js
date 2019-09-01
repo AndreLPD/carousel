@@ -1,4 +1,5 @@
 (function(){
+    'use strict'
     const $carousel = document.querySelector(".carousel");
     const $carouselInner = document.querySelector(".carousel__inner");
     const $carouselItens = document.querySelectorAll(".carousel__item");
@@ -11,64 +12,50 @@
     let paginacaoLi = true;
 
     $carousel.style.overflowX = "hidden";
-    /*$btnPrev.style.display = "block";
-    $btnNext.style.display = "block";*/
+    $btnPrev.style.display = "block";
+    $btnNext.style.display = "block";
 
     $btnPrev.addEventListener("click", showPrev);
     $btnNext.addEventListener("click", showNext);
 
-    if(paginacaoLi === true){
-        for (let i = 0; i < $qtdBanners; i++) {
-            let newElement = document.createElement("li");
-            newElement.classList.add("item__pag");
-            newElement.value = i;
-            $carouselPaginacao.append(newElement); 
-        }
+    if(paginacaoLi){
+      montaPag();  
     }
     const $carouselItemPag = document.querySelectorAll(".item__pag");
     Array.prototype.forEach.call($carouselItemPag, function($itemLi){
         $itemLi.addEventListener("click", mostraBannerPag);
     });
 
+    function montaPag(){
+        for (let i = 0; i < $qtdBanners; i++) {
+            let newLi = document.createElement("li");
+            newLi.classList.add("item__pag");
+            newLi.value = i;
+            $carouselPaginacao.append(newLi); 
+        }
+    }
     function mostraBannerPag(){
-        var largura = getComputedStyle($carouselItens[0]).width;
-        largura = parseInt(largura);
-        var posTotal = largura*$carouselItens.length*-1;
-        var posAtual = this.value*largura*-1;
-        $carouselInner.style.transform = 'translateX('+posAtual+'px)';
+        mostraBanner(this.value);
     }
     function showPrev(){
-        bannerAtual--;
+        if(bannerAtual !== 0){
+            bannerAtual--;
+        }
         mostraBanner(bannerAtual)
     }
     function showNext(){
         bannerAtual++;
         mostraBanner(bannerAtual);
     }
-    function setupNav(bannerAtual){
-        if(bannerAtual>0){
-            $btnPrev.disabled = false;
-        }else{
-            bannerAtual = 0;
-            $btnPrev.disabled= true;
-        }
-        if(bannerAtual === $qtdBanners - 1){
-            $btnNext.disabled = true;
-        }else{
-            $btnNext.disabled = false;
-        }
+    function disableNav(bannerAtual){
+        $btnPrev.disabled = !bannerAtual>0;
+        $btnNext.disabled = bannerAtual === $qtdBanners - 1;
     }
     function mostraBanner(bannerAtual){
-        setupNav(bannerAtual);
-        var largura = getComputedStyle($carouselItens[0]).width;
-        largura = parseInt(largura);
+        disableNav(bannerAtual);
+        var largura = parseInt(getComputedStyle($carouselItens[0]).width);
         var posicaoTotal = largura*$carouselItens.length*-1;
-        var posicaoAtual = bannerAtual*largura*-1;
-        
-        if(bannerAtual>=0){
-            if(posicaoAtual>posicaoTotal){
-                $carouselInner.style.transform = 'translateX('+posicaoAtual+'px)';
-            }
-        }
+        var posicaoAtual = bannerAtual*largura*-1;    
+        $carouselInner.style.transform = 'translateX('+posicaoAtual+'px)';
     }
 })()

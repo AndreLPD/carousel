@@ -1,5 +1,5 @@
 (function(){
-    'use strict'
+    'use strict';
     const $carousel = document.querySelector(".carousel");
     const $carouselInner = document.querySelector(".carousel__inner");
     const $carouselItens = document.querySelectorAll(".carousel__item");
@@ -10,6 +10,7 @@
     const $qtdBanners = $carouselItens.length;
     let bannerAtual = 0;
     let paginacaoLi = true;
+    let automaticBanner = true;
 
     $carousel.style.overflowX = "hidden";
     $btnPrev.style.display = "block";
@@ -21,11 +22,27 @@
     if(paginacaoLi){
       montaPag();  
     }
+    if(automaticBanner){
+        autBanner();
+    }
+    function autBanner(){
+        let secondsBanner = 5000;
+        setTimeout(function(){
+            if(bannerAtual === $qtdBanners - 1){
+                bannerAtual = 0;
+                mostraBanner(bannerAtual);
+                autBanner();
+            }else{
+                bannerAtual++;
+                mostraBanner(bannerAtual);
+                autBanner();
+            }
+        }, secondsBanner);
+    }
     const $carouselItemPag = document.querySelectorAll(".item__pag");
     Array.prototype.forEach.call($carouselItemPag, function($itemLi){
         $itemLi.addEventListener("click", mostraBannerPag);
     });
-
     function montaPag(){
         for (let i = 0; i < $qtdBanners; i++) {
             let newLi = document.createElement("li");

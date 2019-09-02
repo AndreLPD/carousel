@@ -10,7 +10,8 @@
     const $qtdBanners = $carouselItens.length;
     let bannerAtual = 0;
     let paginacaoLi = true;
-    let automaticBanner = true;
+    let automaticBanner = false;
+    var interval = null;
 
     $carousel.style.overflowX = "hidden";
     $btnPrev.style.display = "block";
@@ -23,21 +24,22 @@
       montaPag();  
     }
     if(automaticBanner){
-        autBanner();
+        criaIntervalBanner();
     }
-    function autBanner(){
+    function criaIntervalBanner(){
         let secondsBanner = 5000;
-        setTimeout(function(){
-            if(bannerAtual === $qtdBanners - 1){
+        interval = setInterval(function(){
+            if(bannerAtual >= $qtdBanners - 1){
                 bannerAtual = 0;
                 mostraBanner(bannerAtual);
-                autBanner();
             }else{
                 bannerAtual++;
                 mostraBanner(bannerAtual);
-                autBanner();
             }
         }, secondsBanner);
+    }
+    function limpaBannerInterval(){
+        clearInterval(interval);
     }
     const $carouselItemPag = document.querySelectorAll(".item__pag");
     Array.prototype.forEach.call($carouselItemPag, function($itemLi){
@@ -69,10 +71,13 @@
         $btnNext.disabled = bannerAtual === $qtdBanners - 1;
     }
     function mostraBanner(bannerAtual){
+        if(automaticBanner) limpaBannerInterval();
         disableNav(bannerAtual);
         var largura = parseInt(getComputedStyle($carouselItens[0]).width);
         var posicaoTotal = largura*$carouselItens.length*-1;
         var posicaoAtual = bannerAtual*largura*-1;    
         $carouselInner.style.transform = 'translateX('+posicaoAtual+'px)';
+        if(automaticBanner) criaIntervalBanner();
+        
     }
 })()

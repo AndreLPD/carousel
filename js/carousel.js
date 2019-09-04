@@ -41,7 +41,8 @@
     function limpaBannerInterval(){
         clearInterval(interval);
     }
-    const $carouselItemPag = document.querySelectorAll(".item__pag");
+    const $carouselItemPag = document.getElementsByClassName("item__pag");
+    $carouselItemPag[0].classList.add("active");
     Array.prototype.forEach.call($carouselItemPag, function($itemLi){
         $itemLi.addEventListener("click", mostraBannerPag);
     });
@@ -53,7 +54,16 @@
             $carouselPaginacao.append(newLi); 
         }
     }
-    function mostraBannerPag(){
+    
+    function addOrRemoveActive(event){
+        Array.prototype.forEach.call($carouselItemPag, function($itemCarousel){
+            $itemCarousel.classList.remove("active");
+        })
+        event.target.classList.add('active');
+        
+    }
+    function mostraBannerPag(evt){
+        addOrRemoveActive(evt);
         mostraBanner(this.value);
     }
     function showPrev(){

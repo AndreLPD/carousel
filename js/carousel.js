@@ -2,7 +2,7 @@
     'use strict';
     const $carousel = document.querySelector(".carousel");
     const $carouselInner = document.querySelector(".carousel__inner");
-    const $carouselItens = document.querySelectorAll(".carousel__item");
+    const $carouselItens = document.getElementsByClassName("carousel__item");
     const $btnPrev = document.querySelector(".carousel__btn--prev");
     const $btnNext = document.querySelector(".carousel__btn--next");
     const $carouselPaginacao = document.querySelector(".carousel__paginacao");
@@ -70,10 +70,18 @@
         if(bannerAtual !== 0){
             bannerAtual--;
         }
+        Array.prototype.forEach.call($carouselItemPag, function($itemCarousel){
+            $itemCarousel.classList.remove("active");
+        })
+        $carouselItemPag[bannerAtual].classList.add("active");
         mostraBanner(bannerAtual)
     }
     function showNext(){
         bannerAtual++;
+        Array.prototype.forEach.call($carouselItemPag, function($itemCarousel){
+            $itemCarousel.classList.remove("active");
+        })
+        $carouselItemPag[bannerAtual].classList.add("active");
         mostraBanner(bannerAtual);
     }
     function disableNav(bannerAtual){

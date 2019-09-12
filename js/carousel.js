@@ -10,7 +10,7 @@
     const $qtdBanners = $carouselItens.length;
     let bannerAtual = 0;
     let paginacaoLi = true;
-    let automaticBanner = false;
+    let automaticBanner = true;
     var interval = null;
 
     $carousel.style.overflowX = "hidden";
@@ -36,12 +36,13 @@
                 bannerAtual++;
                 mostraBanner(bannerAtual);
             }
+            addOrRemoveActive(bannerAtual);
         }, secondsBanner);
     }
     function limpaBannerInterval(){
         clearInterval(interval);
     }
-    const $carouselItemPag = document.getElementsByClassName("item__pag");
+    const $carouselItemPag = document.querySelectorAll(".item__pag");
     $carouselItemPag[0].classList.add("active");
     Array.prototype.forEach.call($carouselItemPag, function($itemLi){
         $itemLi.addEventListener("click", mostraBannerPag);
@@ -59,29 +60,24 @@
         Array.prototype.forEach.call($carouselItemPag, function($itemCarousel){
             $itemCarousel.classList.remove("active");
         })
-        event.target.classList.add('active');
-        
+        if(event.target) event.target.classList.add('active');
+        $carouselItemPag[bannerAtual].classList.add("active"); 
+
     }
-    function mostraBannerPag(evt){
-        addOrRemoveActive(evt);
+    function mostraBannerPag(event){
+        addOrRemoveActive(event);
         mostraBanner(this.value);
     }
     function showPrev(){
         if(bannerAtual !== 0){
             bannerAtual--;
         }
-        Array.prototype.forEach.call($carouselItemPag, function($itemCarousel){
-            $itemCarousel.classList.remove("active");
-        })
-        $carouselItemPag[bannerAtual].classList.add("active");
+        addOrRemoveActive(bannerAtual);
         mostraBanner(bannerAtual)
     }
     function showNext(){
         bannerAtual++;
-        Array.prototype.forEach.call($carouselItemPag, function($itemCarousel){
-            $itemCarousel.classList.remove("active");
-        })
-        $carouselItemPag[bannerAtual].classList.add("active");
+        addOrRemoveActive(bannerAtual);
         mostraBanner(bannerAtual);
     }
     function disableNav(bannerAtual){

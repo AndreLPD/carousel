@@ -1,0 +1,17 @@
+{
+  "name": "carousel",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/AndreLPD/carousel.git",
+  "author": "AndreLPD <andre_luis_pessoa@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/cli": "^7.6.2",
+    "@babel/core": "^7.6.2",
+    "@babel/preset-env": "^7.6.2"
+  },
+  "scripts": {
+    "dev": "babel ./js/carousel.js -o ./js/carousel-babel.js",
+    "uglify": "uglifyjs --compress --mangle --output ./js/carousel.min.js -- ./js/carousel-babel.js"
+  }
+}

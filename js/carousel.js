@@ -60,8 +60,11 @@
         Array.prototype.forEach.call($carouselItemPag, function($itemCarousel){
             $itemCarousel.classList.remove("active");
         })
-        if(event.target) event.target.classList.add('active');
-        $carouselItemPag[bannerAtual].classList.add("active"); 
+        if(event.target) {
+            event.target.classList.add('active')
+        }else{
+            $carouselItemPag[bannerAtual].classList.add("active");
+        } 
 
     }
     function mostraBannerPag(event){

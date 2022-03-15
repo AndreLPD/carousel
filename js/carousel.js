@@ -20,12 +20,10 @@
     $btnPrev.addEventListener("click", showPrev);
     $btnNext.addEventListener("click", showNext);
 
-    if(paginacaoLi){
-      montaPag();  
-    }
-    if(automaticBanner){
-        criaIntervalBanner();
-    }
+    if(paginacaoLi) montaPag();  
+    
+    if(automaticBanner) criaIntervalBanner();
+
     function criaIntervalBanner(){
         let secondsBanner = 5000;
         interval = setInterval(function(){
@@ -39,14 +37,16 @@
             addOrRemoveActive(bannerAtual);
         }, secondsBanner);
     }
+
     function limpaBannerInterval(){
         clearInterval(interval);
     }
+    
     const $carouselItemPag = document.querySelectorAll(".item__pag");
     $carouselItemPag[0].classList.add("active");
-    Array.prototype.forEach.call($carouselItemPag, function($itemLi){
-        $itemLi.addEventListener("click", mostraBannerPag);
-    });
+    Array.prototype.forEach.call($carouselItemPag, $itemLi => 
+        $itemLi.addEventListener("click", mostraBannerPag)
+        );
     function montaPag(){
         for (let i = 0; i < $qtdBanners; i++) {
             let newLi = document.createElement("li");
@@ -57,9 +57,9 @@
     }
     
     function addOrRemoveActive(event){
-        Array.prototype.forEach.call($carouselItemPag, function($itemCarousel){
-            $itemCarousel.classList.remove("active");
-        })
+        Array.prototype.forEach.call($carouselItemPag, $itemCarousel => 
+            $itemCarousel.classList.remove("active")
+        )
         if(event.target) {
             event.target.classList.add('active')
         }else{

@@ -19,14 +19,8 @@
   $btnNext.style.display = "block";
   $btnPrev.addEventListener("click", showPrev);
   $btnNext.addEventListener("click", showNext);
-
-  if (paginacaoLi) {
-    montaPag();
-  }
-
-  if (automaticBanner) {
-    criaIntervalBanner();
-  }
+  if (paginacaoLi) montaPag();
+  if (automaticBanner) criaIntervalBanner();
 
   function criaIntervalBanner() {
     var secondsBanner = 5000;
@@ -50,7 +44,7 @@
   var $carouselItemPag = document.querySelectorAll(".item__pag");
   $carouselItemPag[0].classList.add("active");
   Array.prototype.forEach.call($carouselItemPag, function ($itemLi) {
-    $itemLi.addEventListener("click", mostraBannerPag);
+    return $itemLi.addEventListener("click", mostraBannerPag);
   });
 
   function montaPag() {
@@ -64,7 +58,7 @@
 
   function addOrRemoveActive(event) {
     Array.prototype.forEach.call($carouselItemPag, function ($itemCarousel) {
-      $itemCarousel.classList.remove("active");
+      return $itemCarousel.classList.remove("active");
     });
 
     if (event.target) {
